@@ -6,7 +6,7 @@ LABEL description="A docker image for flutter development on linux"
 # setup global environment
 ENV TOOLS_HOME /root/tools
 
-ARG with_emulator=false
+ARG with_emulator=true
 
 ARG android_sdk_version=4333796
 ARG android_platform_version=28
@@ -32,7 +32,7 @@ ENV FLUTTER_CHANNEL $flutter_channel
 USER root
 
 # Setup android dependencies and envirements
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils apt-transport-https apt-config-auto-update locales multiarch-support && apt-get autoclean
+RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-install-recommends apt-utils apt-transport-https apt-config-auto-update locales multiarch-support && apt-get autoclean
 
 RUN apt-get install -y --no-install-recommends software-properties-common curl netbase wget git gdb unzip ruby ruby-dev tar unzip && apt-get autoclean
 
@@ -69,8 +69,10 @@ ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:/roo
 
 RUN flutter doctor -v
 
-RUN if [ "$with_emulator" == "false" ]; then echo "running without emulator"; else flutter emulators --create --name android_emulator -v; fi
+CMD if [ "$with_emulator" == "false" ]; then echo "running without emulator"; else flutter emulators --create --name android_emulator -v; fi
 
 RUN mkdir /root/projects && cd /root/projects
+
+RUN flutter emulators
 
 WORKDIR /root/projects
