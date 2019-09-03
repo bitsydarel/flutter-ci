@@ -6,7 +6,9 @@ LABEL description="A docker image for flutter development on linux"
 # setup global environment
 ENV TOOLS_HOME /root/tools
 
-ARG with_emulator=true
+ARG with_emulator=false
+
+ENV WITH_EMULATOR=$with_emulator
 
 ARG android_sdk_version=4333796
 ARG android_platform_version=28
@@ -60,8 +62,6 @@ RUN sdkmanager tools platform-tools emulator "patcher;v4"
 
 RUN yes | sdkmanager "platforms;android-$ANDROID_PLATFORM_VERSION" "build-tools;$ANDROID_BUILD_TOOLS_VERSION" "system-images;android-$ANDROID_PLATFORM_VERSION;google_apis_playstore;x86" "extras;google;m2repository" "extras;android;m2repository"
 
-RUN wget -O /usr/bin/android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/community-cookbooks/android-sdk/files/default/android-wait-for-emulator && chmod +x /usr/bin/android-wait-for-emulator
-
 ## Setup Flutter dependencies and environment
 RUN cd $TOOLS_HOME && git clone -b $FLUTTER_CHANNEL https://github.com/flutter/flutter.git
 
@@ -69,10 +69,8 @@ ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:/roo
 
 RUN flutter doctor -v
 
-CMD if [ "$with_emulator" == "false" ]; then echo "running without emulator"; else flutter emulators --create --name android_emulator -v; fi
+RUN  wget -O /tmp/setup_for_emulator.sh https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/setup_for_emulator.sh && chmod +x /tmp/setup_for_emulator.sh && sh /tmp/setup_for_emulator.sh;
 
 RUN mkdir /root/projects && cd /root/projects
-
-RUN flutter emulators
 
 WORKDIR /root/projects
