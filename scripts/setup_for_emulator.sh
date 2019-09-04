@@ -1,5 +1,7 @@
 #!/bin/sh
 
+## maintainer Darel Bitsy <bitsydarel@gmail.com>
+
 if [ "$WITH_EMULATOR" = "false" ];
 then
   echo "running without emulator";
