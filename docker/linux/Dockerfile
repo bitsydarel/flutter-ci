@@ -6,7 +6,7 @@ LABEL description="A docker image for flutter development on linux"
 # setup global environment
 ENV TOOLS_HOME /root/tools
 
-ARG with_emulator=false
+ARG with_emulator=true
 
 ENV WITH_EMULATOR=$with_emulator
 
@@ -60,7 +60,7 @@ RUN mkdir /root/.android && touch /root/.android/repositories.cfg && yes | sdkma
 
 RUN sdkmanager tools platform-tools emulator "patcher;v4"
 
-RUN yes | sdkmanager "platforms;android-$ANDROID_PLATFORM_VERSION" "build-tools;$ANDROID_BUILD_TOOLS_VERSION" "system-images;android-$ANDROID_PLATFORM_VERSION;google_apis_playstore;x86" "extras;google;m2repository" "extras;android;m2repository"
+RUN yes | sdkmanager "platforms;android-$ANDROID_PLATFORM_VERSION" "build-tools;$ANDROID_BUILD_TOOLS_VERSION" "extras;google;m2repository" "extras;android;m2repository"
 
 ## Setup Flutter dependencies and environment
 RUN cd $TOOLS_HOME && git clone -b $FLUTTER_CHANNEL https://github.com/flutter/flutter.git
