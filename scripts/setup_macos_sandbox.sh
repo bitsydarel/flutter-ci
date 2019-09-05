@@ -12,22 +12,21 @@ VIRTUAL_MACHINE_NAME="osx_mojave"
 # shellcheck disable=SC2089
 MAC_OS_INSTALLER_LOCATION="/Applications/Install\ macOs\ Mojave.app"
 
+MAC_OS_INSTALLER_ISO=""
+
 getIsoFileName()
 {
-  local isoName=""
   if [ -f "Mojave.iso" ]; then
-      isoName="Mojave.iso"
+      MAC_OS_INSTALLER_ISO="Mojave.iso"
   elif [ -f "HighSierra.iso" ]; then
-      isoName="HighSierra"
+      MAC_OS_INSTALLER_ISO="HighSierra"
   elif [ -f "Sierra" ]; then
-      isoName="Sierra"
+      MAC_OS_INSTALLER_ISO="Sierra"
   elif [ -f "ElCapitan.iso" ]; then
-      isoName="ElCapitan"
+      MAC_OS_INSTALLER_ISO="ElCapitan"
   elif [ -f "Yosemite.iso" ]; then
-      isoName="Yosemite"
+      MAC_OS_INSTALLER_ISO="Yosemite"
   fi
-
-  return $isoName
 }
 
 # Delete vm if already exist.
@@ -78,6 +77,6 @@ VBoxManage storagectl $VIRTUAL_MACHINE_NAME --name "IDE Controller" --add ide --
 
 getIsoFileName
 
-VBoxManage storageattach $VIRTUAL_MACHINE_NAME --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium $?
+VBoxManage storageattach $VIRTUAL_MACHINE_NAME --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium $MAC_OS_INSTALLER_ISO
 
 VBoxManage startvm $VIRTUAL_MACHINE_NAME
