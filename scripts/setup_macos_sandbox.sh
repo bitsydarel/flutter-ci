@@ -49,12 +49,12 @@ wget -O /tmp/prepare-iso.sh https://raw.githubusercontent.com/bitsydarel/macos-v
 
 sudo sh /tmp/prepare-iso.sh $MAC_OS_INSTALLER_LOCATION "$VIRTUAL_MACHINE_NAME.iso"
 
-VBoxManage storagectl $VIRTUAL_MACHINE_NAME --name "IDE Controller" --add ide --controller PIIX4
-
-VBoxManage storageattach $VIRTUAL_MACHINE_NAME --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium "$VIRTUAL_MACHINE_NAME.iso"
-
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --audio none
 
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --usbxhci on
+
+VBoxManage storagectl $VIRTUAL_MACHINE_NAME --name "IDE Controller" --add ide --controller PIIX4
+
+VBoxManage storageattach $VIRTUAL_MACHINE_NAME --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium "$VIRTUAL_MACHINE_NAME.iso"
 
 VBoxManage startvm $VIRTUAL_MACHINE_NAME
