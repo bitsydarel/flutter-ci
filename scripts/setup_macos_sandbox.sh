@@ -12,6 +12,9 @@ VIRTUAL_MACHINE_NAME="osx_mojave"
 # shellcheck disable=SC2089
 MAC_OS_INSTALLER_LOCATION="/Applications/Install\ macOs\ Mojave.app"
 
+# Delete vm if already exist.
+VBoxManage unregister --delete $VIRTUAL_MACHINE_NAME
+
 # Create a vm with name of osx_sierra and os type mac os sierra
 VBoxManage createvm --name $VIRTUAL_MACHINE_NAME --ostype MacOS_64 --register
 
