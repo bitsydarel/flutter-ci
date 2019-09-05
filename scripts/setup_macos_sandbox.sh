@@ -13,7 +13,7 @@ VIRTUAL_MACHINE_NAME="osx_mojave"
 MAC_OS_INSTALLER_LOCATION="/Applications/Install\ macOs\ Mojave.app"
 
 # Create a vm with name of osx_sierra and os type mac os sierra
-VBoxManage createvm --name $VIRTUAL_MACHINE_NAME --ostype MacOS1013_64 --register
+VBoxManage createvm --name $VIRTUAL_MACHINE_NAME --ostype MacOS_64 --register
 
 #VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --bridgeadapter1 enp2s0
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --nic1 nat
