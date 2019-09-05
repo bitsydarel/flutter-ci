@@ -15,8 +15,8 @@ MAC_OS_INSTALLER_LOCATION="/Applications/Install\ macOs\ Mojave.app"
 # Create a vm with name of osx_sierra and os type mac os sierra
 VBoxManage createvm --name $VIRTUAL_MACHINE_NAME --ostype MacOS1013_64 --register
 
-VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --bridgeadapter1 enp2s0
-VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --nic1 bridged
+#VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --bridgeadapter1 enp2s0
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --nic1 nat
 
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --memory 4028
 
@@ -45,11 +45,13 @@ VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal/Devices/smc/0/Config
 
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --vram 256
 
-wget -O /tmp/prepare-iso.sh https://raw.githubusercontent.com/geerlingguy/macos-virtualbox-vm/master/prepare-iso.sh && chmod +x /tmp/prepare-iso.sh
+wget -O /tmp/prepare-iso.sh https://raw.githubusercontent.com/bitsydarel/macos-virtualbox-vm/master/prepare-iso.sh && chmod +x /tmp/prepare-iso.sh
 
-sh /tmp/setup_for_emulator.sh MAC_OS_INSTALLER_LOCATION $VIRTUAL_MACHINE_NAME.iso
+sudo sh /tmp/setup_for_emulator.sh $MAC_OS_INSTALLER_LOCATION $VIRTUAL_MACHINE_NAME.iso
 
-VBoxManage storageattach $VIRTUAL_MACHINE_NAME --storagectl IDE --port 1 --device 0 --type dvddrive --medium "$VIRTUAL_MACHINE_NAME.iso"
+VBoxManage storagectl ubuntu-server --name "IDE Controller" --add ide --controller PIIX4
+
+VBoxManage storageattach $VIRTUAL_MACHINE_NAME --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium "$VIRTUAL_MACHINE_NAME.iso"
 
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --audio none
 
