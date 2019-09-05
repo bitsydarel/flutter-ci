@@ -13,7 +13,7 @@ VIRTUAL_MACHINE_NAME="osx_mojave"
 MAC_OS_INSTALLER_LOCATION="/Applications/Install\ macOs\ Mojave.app"
 
 # Delete vm if already exist.
-VBoxManage unregister --delete $VIRTUAL_MACHINE_NAME
+VBoxManage unregistervm --delete $VIRTUAL_MACHINE_NAME
 
 # Create a vm with name of osx_sierra and os type mac os sierra
 VBoxManage createvm --name $VIRTUAL_MACHINE_NAME --ostype MacOS_64 --register
@@ -50,7 +50,7 @@ VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --vram 256
 
 wget -O /tmp/prepare-iso.sh https://raw.githubusercontent.com/bitsydarel/macos-virtualbox-vm/master/prepare-iso.sh && chmod +x /tmp/prepare-iso.sh
 
-sudo sh /tmp/prepare-iso.sh $MAC_OS_INSTALLER_LOCATION "$VIRTUAL_MACHINE_NAME.iso"
+sudo sh /tmp/prepare-iso.sh MAC_OS_INSTALLER_LOCATION "$VIRTUAL_MACHINE_NAME.iso"
 
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --audio none
 
