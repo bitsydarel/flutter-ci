@@ -73,7 +73,7 @@ VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal/Devices/efi/0/Config
 
 VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal/Devices/efi/0/Config/DmiBoardProduct" "Mac-3CBD00234E554E41"
 
-VBoxManage setextradata "El_Capitan" "VBoxInternal/Devices/efi/0/Config/DmiBoardSerial" "C02LJ6QSFDW1A"
+VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal/Devices/efi/0/Config/DmiBoardSerial" "C02LJ6QSFDW1A"
 
 VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal/Devices/smc/0/Config/DeviceKey" "ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"
 
