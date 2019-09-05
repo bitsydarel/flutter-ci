@@ -105,6 +105,8 @@ VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal/Devices/efi/0/LUN#0/
 
 VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC" 0
 
+VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal2/EfiGopMode" 4
+
 VBoxManage setextradata $VIRTUAL_MACHINE_NAME "VBoxInternal2/EfiGraphicsResolution" "1280x800"
 
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --vram 256
@@ -116,6 +118,24 @@ sudo sh /tmp/prepare-iso.sh MAC_OS_INSTALLER_LOCATION "$VIRTUAL_MACHINE_NAME.iso
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --audio none
 
 VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --usbxhci on
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --boot1 dvd
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --boot2 disk
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --chipset ich9
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --mouse usbtablet
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --firmware efi
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --acpi on
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --rtcuseutc on
+
+VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --pae on
+
+VBoxManage controlvm $VIRTUAL_MACHINE_NAME cpuexecutioncap 100
 
 VBoxManage storagectl $VIRTUAL_MACHINE_NAME --name "IDE Controller" --add ide --controller PIIX4
 
