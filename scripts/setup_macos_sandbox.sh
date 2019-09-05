@@ -47,7 +47,7 @@ VBoxManage modifyvm $VIRTUAL_MACHINE_NAME --vram 256
 
 wget -O /tmp/prepare-iso.sh https://raw.githubusercontent.com/bitsydarel/macos-virtualbox-vm/master/prepare-iso.sh && chmod +x /tmp/prepare-iso.sh
 
-sudo sh /tmp/setup_for_emulator.sh $MAC_OS_INSTALLER_LOCATION $VIRTUAL_MACHINE_NAME.iso
+sudo sh /tmp/prepare-iso.sh $MAC_OS_INSTALLER_LOCATION $VIRTUAL_MACHINE_NAME.iso
 
 VBoxManage storagectl ubuntu-server --name "IDE Controller" --add ide --controller PIIX4
 
