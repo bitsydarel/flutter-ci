@@ -31,8 +31,6 @@ ENV FLUTTER_HOME $TOOLS_HOME/flutter
 ENV FLUTTER_ROOT $FLUTTER_HOME
 ENV FLUTTER_CHANNEL $flutter_channel
 
-USER root
-
 # Setup android dependencies and envirements
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-install-recommends apt-utils apt-transport-https apt-config-auto-update locales multiarch-support && apt-get autoclean
 
