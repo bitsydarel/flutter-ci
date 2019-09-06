@@ -4,7 +4,7 @@ LABEL maintainer="bitsydarel@gmail.com"
 LABEL description="A docker image for flutter development on linux"
 
 # setup global environment
-ENV TOOLS_HOME /tools
+ENV TOOLS_HOME /home/tools
 
 ARG with_emulator=true
 
@@ -67,6 +67,6 @@ RUN flutter doctor -v
 
 RUN wget -O /tmp/setup_for_emulator.sh https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/setup_for_emulator.sh && chmod +x /tmp/setup_for_emulator.sh && sh /tmp/setup_for_emulator.sh;
 
-RUN mkdir /projects && cd /projects
+RUN mkdir /home/projects && cd /home/projects
 
-WORKDIR /projects
+WORKDIR /home/projects
