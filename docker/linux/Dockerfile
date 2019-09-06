@@ -4,7 +4,7 @@ LABEL maintainer="bitsydarel@gmail.com"
 LABEL description="A docker image for flutter development on linux"
 
 # setup global environment
-ENV TOOLS_HOME /root/tools
+ENV TOOLS_HOME /tools
 
 ARG with_emulator=true
 
@@ -15,7 +15,7 @@ ARG android_platform_version=28
 ARG android_build_tools_version=29.0.2
 
 # setup environment variables for android sdk
-ENV ANDROID_SDK_HOME $TOOLS_HOME/android-sdk-linux
+ENV ANDROID_SDK_HOME $TOOLS_HOME/android-sdk
 ENV ANDROID_SDK_ROOT $ANDROID_SDK_HOME
 ENV ANDROID_HOME $ANDROID_SDK_HOME
 ENV ANDROID_SDK $ANDROID_SDK_HOME
@@ -52,7 +52,7 @@ RUN wget -q https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_SD
 
 ENV PATH ${PATH}:${ANDROID_SDK_HOME}/tools:${ANDROID_SDK_HOME}/tools/bin:${ANDROID_SDK_HOME}/platform-tools
 
-RUN mkdir /root/.android && touch /root/.android/repositories.cfg && yes | sdkmanager --update && yes | sdkmanager --licenses
+RUN sdkmanager --update && yes | sdkmanager --licenses
 
 RUN sdkmanager tools platform-tools emulator "patcher;v4"
 
@@ -61,12 +61,12 @@ RUN yes | sdkmanager "platforms;android-$ANDROID_PLATFORM_VERSION" "build-tools;
 ## Setup Flutter dependencies and environment
 RUN cd $TOOLS_HOME && git clone -b $FLUTTER_CHANNEL https://github.com/flutter/flutter.git
 
-ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:/root/.pub-cache/bin
+ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:$HOME.pub-cache/bin
 
 RUN flutter doctor -v
 
 RUN wget -O /tmp/setup_for_emulator.sh https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/setup_for_emulator.sh && chmod +x /tmp/setup_for_emulator.sh && sh /tmp/setup_for_emulator.sh;
 
-RUN mkdir /root/projects && cd /root/projects
+RUN mkdir /projects && cd /projects
 
-WORKDIR /root/projects
+WORKDIR /projects
