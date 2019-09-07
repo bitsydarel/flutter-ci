@@ -3,8 +3,10 @@ FROM ubuntu:bionic
 LABEL maintainer="bitsydarel@gmail.com"
 LABEL description="A docker image for flutter development on linux"
 
+ENV HOME /home/sandbox
+
 # setup global environment
-ENV TOOLS_HOME /home/tools
+ENV TOOLS_HOME $HOME/tools
 
 ARG with_emulator=true
 
@@ -46,7 +48,7 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LANGUAGE en_US:en
 
-RUN mkdir $TOOLS_HOME && cd $TOOLS_HOME
+RUN mkdir -p $TOOLS_HOME && cd $TOOLS_HOME
 
 RUN wget -q https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_SDK_TOOLS_VERSION.zip -O android-sdk-tools.zip && unzip -q android-sdk-tools.zip -d ${ANDROID_HOME} && rm android-sdk-tools.zip
 
@@ -67,6 +69,12 @@ RUN flutter doctor -v
 
 RUN wget -O /tmp/setup_for_emulator.sh https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/setup_for_emulator.sh && chmod +x /tmp/setup_for_emulator.sh && sh /tmp/setup_for_emulator.sh;
 
-RUN mkdir /home/projects && cd /home/projects
+RUN mkdir -p $HOME/projects && cd $HOME/projects
 
-WORKDIR /home/projects
+WORKDIR $HOME/projects
+
+RUN useradd -u $(id -u) -g $(id -g) -G root -s /bin/bash -o -m -d $HOME sandbox \
+        && chown --recursive $(id -u):$(id -u) ${HOME} \
+        && chmod -R 777 $HOME \
+        && chmod -R 777 $TOOLS_HOME \
+        && chmod -R 777 .
