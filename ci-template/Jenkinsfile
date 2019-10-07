@@ -1,0 +1,7 @@
+pipeline {
+  agent {
+    docker {
+      image 'bitsydarel/flutter-ci:latest'
+    }
+  }
+}
