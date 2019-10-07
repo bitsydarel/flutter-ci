@@ -13,6 +13,7 @@ ARG android_sdk_version=4333796
 ARG android_platform_version=28
 ARG android_build_tools_version=29.0.2
 ARG android_emulator_arch=x86_64
+ARG android_emulator_type=google_apis_playstore
 
 # setup global environment
 ENV TOOLS_HOME $HOME/tools
@@ -27,6 +28,7 @@ ENV ANDROID_SDK_TOOLS_VERSION $android_sdk_version
 ENV ANDROID_PLATFORM_VERSION $android_platform_version
 ENV ANDROID_BUILD_TOOLS_VERSION $android_build_tools_version
 ENV ANDROID_EMULATOR_ARCH $android_emulator_arch
+ENV ANDROID_EMULATOR_TYPE $android_emulator_type
 
 # Setup android dependencies and envirements
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-install-recommends apt-utils apt-transport-https apt-config-auto-update locales multiarch-support && apt-get autoclean
