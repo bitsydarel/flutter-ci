@@ -50,7 +50,7 @@ ENV LANGUAGE en_US:en
 
 RUN mkdir -p $TOOLS_HOME && cd $TOOLS_HOME
 
-ENV PATH ${PATH}:${$TOOLS_HOME}
+ENV PATH ${PATH}:${TOOLS_HOME}
 
 RUN wget -q https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_SDK_TOOLS_VERSION.zip -O android-sdk-tools.zip && unzip -q android-sdk-tools.zip -d ${ANDROID_HOME} && rm android-sdk-tools.zip
 
