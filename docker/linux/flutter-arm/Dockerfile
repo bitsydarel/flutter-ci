@@ -15,4 +15,4 @@ RUN cd $TOOLS_HOME && git clone -b $FLUTTER_CHANNEL https://github.com/flutter/f
 
 ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:$HOME.pub-cache/bin
 
-RUN flutter doctor -v && pub global activate dbstyleguidechecker
+RUN flutter doctor -v && pub global activate dbstyleguidechecker && gem install bundle
