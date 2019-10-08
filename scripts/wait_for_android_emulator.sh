@@ -2,6 +2,8 @@
 
 ## maintainer Darel Bitsy <bitsydarel@gmail.com>
 
+set +e
+
 emulator_booted=""
 failcounter=0
 retry_counter=15
