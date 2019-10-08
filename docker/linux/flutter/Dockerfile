@@ -1,4 +1,4 @@
-FROM bitsydarel:android
+FROM bitsydarel/android:latest
 
 LABEL maintainer="Darel Bitsy <bitsydarel@gmail.com>"
 LABEL description="A docker image for flutter development on linux"
