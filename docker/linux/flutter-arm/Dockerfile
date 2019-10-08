@@ -1,4 +1,4 @@
-FROM bitsydarel/android:latest
+FROM bitsydarel/android:api-25-armeabi-v7a
 
 LABEL maintainer="Darel Bitsy <bitsydarel@gmail.com>"
 LABEL description="A docker image for flutter development on linux"
