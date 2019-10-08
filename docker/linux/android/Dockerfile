@@ -34,7 +34,7 @@ ENV ANDROID_PLATFORM_VERSION $android_platform_version
 ENV ANDROID_BUILD_TOOLS_VERSION $android_build_tools_version
 ENV ANDROID_EMULATOR_ARCH $android_emulator_arch
 ENV ANDROID_EMULATOR_TYPE $android_emulator_type
-ENV ANDROID_EMULATOR_ACCEL=android_emulator_accel
+ENV ANDROID_EMULATOR_ACCEL=$android_emulator_accel
 ENV QT_DEBUG_PLUGINS=1
 # Setup android dependencies and envirements
 RUN dpkg --add-architecture i386 \
