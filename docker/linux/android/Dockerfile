@@ -5,6 +5,8 @@ LABEL description="A docker image for android development on linux"
 
 ENV HOME /home/sandbox
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 ARG with_emulator=true
 
 ENV WITH_EMULATOR=$with_emulator
@@ -14,6 +16,7 @@ ARG android_platform_version=28
 ARG android_build_tools_version=29.0.2
 ARG android_emulator_arch=x86_64
 ARG android_emulator_type=google_apis_playstore
+ARG android_emulator_accel=off
 
 # setup global environment
 ENV TOOLS_HOME $HOME/tools
@@ -29,11 +32,12 @@ ENV ANDROID_PLATFORM_VERSION $android_platform_version
 ENV ANDROID_BUILD_TOOLS_VERSION $android_build_tools_version
 ENV ANDROID_EMULATOR_ARCH $android_emulator_arch
 ENV ANDROID_EMULATOR_TYPE $android_emulator_type
-
+ENV ANDROID_EMULATOR_ACCEL=android_emulator_accel
+ENV QT_DEBUG_PLUGINS=1
 # Setup android dependencies and envirements
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-install-recommends apt-utils apt-transport-https apt-config-auto-update locales multiarch-support && apt-get autoclean
 
-RUN apt-get install -y --no-install-recommends software-properties-common curl netbase wget git gdb unzip ruby ruby-dev tar unzip && apt-get autoclean
+RUN apt-get install -y --no-install-recommends --allow-unauthenticated software-properties-common curl netbase wget git gdb unzip ruby ruby-dev tar unzip x11vnc xvfb mesa-utils xorg openbox build-essential qt5-default && apt-get autoclean
 
 RUN add-apt-repository ppa:openjdk-r/ppa && apt-get update && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre && add-apt-repository --remove ppa:openjdk-r/ppa && apt-get install -y --no-install-recommends qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils xvfb lib32z1 lib32stdc++6 libstdc++6 build-essential libcurl4-openssl-dev libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev lcov
 
@@ -42,6 +46,7 @@ RUN apt-get autoclean && rm -rf /var/lib/apt/lists/* && ln -sf /usr/share/zonein
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LANGUAGE en_US:en
+ENV DISPLAY=:1
 
 RUN mkdir -p $TOOLS_HOME && cd $TOOLS_HOME
 
@@ -59,7 +64,11 @@ RUN yes | sdkmanager "platforms;android-$ANDROID_PLATFORM_VERSION" "build-tools;
 
 RUN wget -O /tmp/setup_for_emulator.sh https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/setup_for_emulator.sh && chmod +x /tmp/setup_for_emulator.sh && sh /tmp/setup_for_emulator.sh && rm -rf /tmp/setup_for_emulator.sh;
 
-RUN mkdir -p $HOME/projects && cd $HOME/projects
+RUN mkdir -p $HOME/projects && cd $HOME/projects && mkdir -p $HOME/.vnc && x11vnc -storepasswd 1234 $HOME/.vnc/passwd && x11vnc -forever -usepw -create &
+
+RUN touch /etc/ld.so.conf.d/android_libs.conf \
+    && echo "$ANDROID_SDK_HOME/emulator/lib64/qt/lib" >> /etc/ld.so.conf.d/android_libs.conf \
+    && echo "$ANDROID_SDK_HOME/emulator/lib64" >> /etc/ld.so.conf.d/android_libs.conf \
 
 WORKDIR $HOME/projects
 
