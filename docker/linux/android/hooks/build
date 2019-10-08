@@ -1,3 +1,0 @@
-#!/bin/sh
-
-docker build --build-arg android_emulator_arch=$EMULATOR_ARCH --build-arg with_emulator=$ENABLE_EMULATOR -t bitsydarel/android:$TAG .
