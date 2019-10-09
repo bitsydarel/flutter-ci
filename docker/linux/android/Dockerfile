@@ -86,8 +86,11 @@ RUN touch /etc/ld.so.conf.d/android_libs.conf \
 
 WORKDIR $HOME/projects
 
-RUN useradd -u $(id -u) -g $(id -g) -G root -s /bin/bash -o -m -d $HOME sandbox \
-        && chown --recursive $(id -u):$(id -u) ${HOME} \
+RUN useradd -u 1000 -g 1000 -G root -s /bin/bash -o -m -d $HOME sandbox \
+        && usermod -aG root sandbox\
+        && chown --recursive 1000:1000 ${HOME} \
         && chmod -R 777 $HOME \
         && chmod -R 777 $TOOLS_HOME \
         && chmod -R 777 .
+
+USER [sandbox]
