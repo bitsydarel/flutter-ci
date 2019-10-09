@@ -6,7 +6,7 @@ set +e
 
 emulator_booted=""
 failcounter=0
-retry_counter=15
+retry_counter=30
 
 until [[ "$emulator_booted" =~ "1" ]]; do
   emulator_booted=$(adb -e shell getprop sys.boot_completed 2>&1 &)
