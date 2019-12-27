@@ -13,6 +13,12 @@ ENV FLUTTER_CHANNEL $flutter_channel
 ## Setup Flutter dependencies and environment
 RUN cd $TOOLS_HOME && git clone -b $FLUTTER_CHANNEL https://github.com/flutter/flutter.git
 
-ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:$HOME.pub-cache/bin
+ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:$HOME/.pub-cache/bin
 
-RUN flutter doctor -v && pub global activate dbstyleguidechecker && pub global activate junitreport && gem install bundle
+RUN flutter doctor -v && pub global activate dbstyleguidechecker && pub global activate junitreport
+
+USER root
+
+RUN gem install bundle
+
+USER sandbox

@@ -8,9 +8,13 @@ ENV HOME /home/sandbox
 ARG DEBIAN_FRONTEND=noninteractive
 
 ARG with_emulator=true
+ARG with_gradle=false
+ARG gradle_version=5.4.1
 ARG vnc_password=1234
 
 ENV WITH_EMULATOR=$with_emulator
+ENV WITH_GRADLE=$with_gradle
+ENV GRADLE_VERSION=$gradle_version
 ENV VNC_PASSWORD=$vnc_password
 
 ARG android_sdk_version=4333796
@@ -47,7 +51,7 @@ RUN apt-get install -y --no-install-recommends --allow-unauthenticated software-
 RUN add-apt-repository ppa:openjdk-r/ppa \
     && apt-get update && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre \
     && add-apt-repository --remove ppa:openjdk-r/ppa \
-    && apt-get install -y --no-install-recommends qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils xvfb lib32z1 lib32stdc++6 libstdc++6 build-essential libcurl4-openssl-dev libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev lcov
+    && apt-get install -y --no-install-recommends qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils xvfb lib32z1 lib32stdc++6 libstdc++6 build-essential libcurl4-openssl-dev libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev lcov qrencode openssh-client lftp
 
 RUN apt-get autoclean && rm -rf /var/lib/apt/lists/* && ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime && locale-gen en_US.UTF-8 || true
 
@@ -78,11 +82,18 @@ RUN wget -O /tmp/setup_for_emulator.sh https://raw.githubusercontent.com/bitsyda
     && rm -rf /tmp/setup_for_emulator.sh;
 
 RUN mkdir -p $HOME/projects && cd $HOME/projects && mkdir -p $HOME/.vnc \
-    && x11vnc -storepasswd $VNC_PASSWORD $HOME/.vnc/passwd && x11vnc -forever -usepw -create &
+    && x11vnc -storepasswd $VNC_PASSWORD $HOME/.vnc/passwd && ls $HOME/.vnc && x11vnc -forever -usepw -create &
 
 RUN touch /etc/ld.so.conf.d/android_libs.conf \
     && echo "$ANDROID_SDK_HOME/emulator/lib64/qt/lib" >> /etc/ld.so.conf.d/android_libs.conf \
     && echo "$ANDROID_SDK_HOME/emulator/lib64" >> /etc/ld.so.conf.d/android_libs.conf
+
+RUN wget -O /tmp/setup_gradle.sh https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/setup_gradle.sh \
+    && chmod +x /tmp/setup_gradle.sh \
+    && sh /tmp/setup_gradle.sh \
+    && rm -rf /tmp/setup_gradle.sh;
+
+ENV PATH ${PATH}:${TOOLS_HOME}/gradle-${GRADLE_VERSION}:${TOOLS_HOME}/gradle-${GRADLE_VERSION}/bin
 
 WORKDIR $HOME/projects
 
@@ -93,4 +104,7 @@ RUN groupadd -g 1000 sandbox && useradd -u 1000 -g 1000 -G root -s /bin/bash -o 
         && chmod -R 777 $TOOLS_HOME \
         && chmod -R 777 .
 
-USER [sandbox]
+USER sandbox
+
+CMD ["bash"]
+
