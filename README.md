@@ -1,5 +1,3 @@
-# flutter-ci
-
 ## Android CI
 
 # Supported tags and respective `Dockerfile` links
