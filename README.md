@@ -4,20 +4,20 @@
 
 # Supported tags and respective `Dockerfile` links
 
--	[`latest`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/android/Dockerfile) Docker image contains android sdk latest stable version, android platform api 28, android emulator x86_64 and other automation tools.
+-	[`latest`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/android/Dockerfile) Docker image contains android sdk latest stable version, android platform api 28, android emulator x86_64 (with google apis and playstore) and other automation tools.
 
 - [`api-25-armeabi-v7a`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/android/Dockerfile) Docker image contains android sdk latest stable version, android platform api 25, Android emulator armeabi-v7a and other automation tools.
 
 - [`no-emulator`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/android/Dockerfile) Docker image contains android sdk latest stable version, android platform api 28 and other automation tools.
 
-- [`gradle-5.4.1`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/android/Dockerfile) Docker image contains gradle 5.4.1, android sdk latest stable version, android emulator x86_64 and other automation tools.
+- [`gradle-5.4.1`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/android/Dockerfile) Docker image contains gradle 5.4.1, android sdk latest stable version, android emulator x86_64 (with google apis and playstore) and other automation tools.
 
 
 ## Flutter CI
 
 # Supported tags and respective `Dockerfile` links
 
--	[`latest`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/flutter/Dockerfile) Docker image contains flutter latest stable version, Android emulator x86_64 and other automation tools.
+-	[`latest`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/flutter/Dockerfile) Docker image contains flutter latest stable version, Android emulator x86_64 (with google apis and playstore) and other automation tools.
 
 - [`arm`](https://github.com/bitsydarel/flutter-ci/blob/master/docker/linux/flutter/Dockerfile) Docker image contains flutter latest stable version, Android emulator arm and other automation tools.
 
