@@ -19,6 +19,6 @@ RUN flutter doctor -v && pub global activate dbstyleguidechecker && pub global a
 
 USER root
 
-RUN gem install bundle
+RUN gem install bundle && alias fastlane='bundle exec fastlane'
 
 USER sandbox

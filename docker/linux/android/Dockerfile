@@ -43,7 +43,7 @@ ENV QT_DEBUG_PLUGINS=1
 # Setup android dependencies and envirements
 RUN dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get install -y --no-install-recommends apt-utils apt-transport-https apt-config-auto-update locales multiarch-support \
+    && apt-get install -y --no-install-recommends apt-utils apt-transport-https apt-config-auto-update locales multiarch-support net-tools \
     && apt-get autoclean
 
 RUN apt-get install -y --no-install-recommends --allow-unauthenticated software-properties-common curl netbase wget git gdb unzip ruby ruby-dev tar unzip x11vnc xvfb mesa-utils xorg openbox qt5-default && apt-get autoclean
@@ -58,7 +58,7 @@ RUN apt-get autoclean && rm -rf /var/lib/apt/lists/* && ln -sf /usr/share/zonein
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LANGUAGE en_US:en
-ENV DISPLAY=:1
+ENV DISPLAY=:20
 
 RUN mkdir -p $TOOLS_HOME && cd $TOOLS_HOME
 
@@ -81,8 +81,13 @@ RUN wget -O /tmp/setup_for_emulator.sh https://raw.githubusercontent.com/bitsyda
     && sh /tmp/setup_for_emulator.sh \
     && rm -rf /tmp/setup_for_emulator.sh;
 
-RUN mkdir -p $HOME/projects && cd $HOME/projects && mkdir -p $HOME/.vnc \
-    && x11vnc -storepasswd $VNC_PASSWORD $HOME/.vnc/passwd && ls $HOME/.vnc && x11vnc -forever -usepw -create &
+RUN mkdir -p $HOME/projects && cd $HOME/projects && wget -O /tmp/setup_vnc.sh https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/setup_vnc.sh \
+   && chmod +x /tmp/setup_vnc.sh \
+   && sh /tmp/setup_vnc.sh \
+   && rm -rf /tmp/setup_vnc.sh \
+   && echo "Xvfb :20 -screen 0 1366x768x16 &" >> $TOOLS_HOME/default_entry_point.sh \
+   && echo "x11vnc -usepw -create -display :20 -N -forever &" >> $TOOLS_HOME/default_entry_point.sh \
+   && chmod +x $TOOLS_HOME/default_entry_point.sh;
 
 RUN touch /etc/ld.so.conf.d/android_libs.conf \
     && echo "$ANDROID_SDK_HOME/emulator/lib64/qt/lib" >> /etc/ld.so.conf.d/android_libs.conf \
@@ -106,5 +111,8 @@ RUN groupadd -g 1000 sandbox && useradd -u 1000 -g 1000 -G root -s /bin/bash -o 
 
 USER sandbox
 
-CMD ["bash"]
+EXPOSE 5920
 
+ENTRYPOINT ["bash"]
+
+CMD ["-c", "default_entry_point.sh && bash"]
