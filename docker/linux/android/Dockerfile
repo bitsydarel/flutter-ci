@@ -113,6 +113,6 @@ USER sandbox
 
 EXPOSE 5920
 
-ENTRYPOINT ["bash"]
+#ENTRYPOINT ["bash"]
 
-CMD ["-c", "default_entry_point.sh && bash"]
+CMD ["bash", "-c", "default_entry_point.sh && bash"]
