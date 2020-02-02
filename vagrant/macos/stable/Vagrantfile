@@ -12,11 +12,10 @@ Vagrant.configure("2") do |config|
     vb.linked_clone = true if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.8.0')
   end
 
-  config.vm.provision "stable" do |script|
-    script.type = "shell"
+  config.vm.provision "shell" do |script|
+    script.name = "stable"
     script.path = "https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/install_flutter.sh"
     script.env = {"flutter_version" => "stable"}
-    script.reboot = true
   end
 
 end

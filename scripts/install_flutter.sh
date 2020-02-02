@@ -4,12 +4,16 @@
 
 if [ -z "$1" ]; then flutter_version="stable"; else flutter_version="$1"; fi
 
+mkdir -p /etc/profile.d
+
+touch /etc/profile.d/vm_env.sh
+
 {
   echo export FLUTTER_HOME="$TOOLS_HOME"/flutter
   echo export FLUTTER_ROOT="$FLUTTER_HOME"
   echo export FLUTTER_CHANNEL="$flutter_version"
   echo export TOOLS_HOME="$HOME"
-} >>/etc/profile.d/vm_env.sh
+} >/etc/profile.d/vm_env.sh
 
 chmod +x /etc/profile.d/vm_env.sh
 
