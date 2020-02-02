@@ -7,12 +7,10 @@ if [ -z "$VAGRANT_HOME" ]; then homeDir="$HOME"; else homeDir="$VAGRANT_HOME"; f
 
 ENV_FILE=/etc/profile
 
-sudo touch $ENV_FILE
-
-sudo echo export TOOLS_HOME="$homeDir/tools" | sudo tee -a $ENV_FILE >/dev/null
-sudo echo export FLUTTER_HOME="$homeDir/tools/flutter" | sudo tee -a $ENV_FILE >/dev/null
-sudo echo export FLUTTER_ROOT="$homeDir/tools/flutter" | sudo tee -a $ENV_FILE >/dev/null
-sudo echo export FLUTTER_CHANNEL="$flutter_version" | sudo tee -a $ENV_FILE >/dev/null
+echo export TOOLS_HOME="$homeDir/tools" | sudo tee -a $ENV_FILE >/dev/null
+echo export FLUTTER_HOME="$homeDir/tools/flutter" | sudo tee -a $ENV_FILE >/dev/null
+echo export FLUTTER_ROOT="$homeDir/tools/flutter" | sudo tee -a $ENV_FILE >/dev/null
+echo export FLUTTER_CHANNEL="$flutter_version" | sudo tee -a $ENV_FILE >/dev/null
 
 source "$ENV_FILE"
 
