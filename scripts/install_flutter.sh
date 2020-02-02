@@ -4,26 +4,24 @@
 
 if [ -z "$1" ]; then flutter_version="stable"; else flutter_version="$1"; fi
 
-mkdir -p /etc/profile.d
+ENV_FILE=/etc/profile
 
-touch /etc/profile.d/vm_env.sh
+touch $ENV_FILE
 
 {
   echo export FLUTTER_HOME="$TOOLS_HOME"/flutter
   echo export FLUTTER_ROOT="$FLUTTER_HOME"
   echo export FLUTTER_CHANNEL="$flutter_version"
   echo export TOOLS_HOME="$HOME"
-} >/etc/profile.d/vm_env.sh
+} >>$ENV_FILE
 
-chmod +x /etc/profile.d/vm_env.sh
-
-bash /etc/profile.d/vm_env.sh
+source "$ENV_FILE"
 
 mkdir -p "$TOOLS_HOME" && cd "$TOOLS_HOME" && git clone -b "$FLUTTER_CHANNEL" https://github.com/flutter/flutter.git
 
-echo export PATH "$PATH":"$FLUTTER_HOME"/bin:"$FLUTTER_HOME"/bin/cache/dart-sdk/bin:"$HOME"/.pub-cache/bin >>/etc/profile.d/vm_env.sh
+echo export PATH "$PATH":"$FLUTTER_HOME"/bin:"$FLUTTER_HOME"/bin/cache/dart-sdk/bin:"$HOME"/.pub-cache/bin >>$ENV_FILE
 
-bash /etc/profile.d/vm_env.sh
+source "$ENV_FILE"
 
 flutter doctor -v && pub global activate dbstyleguidechecker && pub global activate junitreport
 
