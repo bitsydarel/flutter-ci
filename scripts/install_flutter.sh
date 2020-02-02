@@ -20,6 +20,14 @@ echo export PATH="$PATH":"$FLUTTER_HOME"/bin:"$FLUTTER_HOME"/bin/cache/dart-sdk/
 
 source "$ENV_FILE"
 
-flutter doctor -v && pub global activate dbstyleguidechecker && pub global activate junitreport
+#brew install ruby
+
+echo export PATH="/usr/local/opt/ruby/bin:$PATH" | tee -a  >> "$homeDir/.bash_profile"
+echo export LC_ALL=en_US.UTF-8 | tee -a  >> "$homeDir/.bash_profile"
+echo export LANG=en_US.UTF-8 | tee -a  >> "$homeDir/.bash_profile"
 
 sudo gem install bundle && alias fastlane='bundle exec fastlane'
+#sudo gem install xcode-install
+sudo gem install cocoapods
+
+flutter doctor -v && pub global activate dbstyleguidechecker && pub global activate junitreport
