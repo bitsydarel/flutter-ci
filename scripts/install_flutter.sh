@@ -16,7 +16,7 @@ source "$ENV_FILE"
 
 mkdir -p "$TOOLS_HOME" && cd "$TOOLS_HOME" && git clone -b "$FLUTTER_CHANNEL" https://github.com/flutter/flutter.git
 
-echo export PATH "$PATH":"$FLUTTER_HOME"/bin:"$FLUTTER_HOME"/bin/cache/dart-sdk/bin:"$homeDir"/.pub-cache/bin | sudo tee -a $ENV_FILE >/dev/null
+echo export PATH="$PATH":"$FLUTTER_HOME"/bin:"$FLUTTER_HOME"/bin/cache/dart-sdk/bin:"$homeDir"/.pub-cache/bin | sudo tee -a $ENV_FILE >/dev/null
 
 source "$ENV_FILE"
 

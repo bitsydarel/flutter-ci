@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
     script.name = "stable"
     script.path = "https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/install_flutter.sh"
     script.env = {"VAGRANT_HOME" => "/Users/vagrant", "flutter_version" => "stable"}
+    script.privileged = false
   end
 
 end
