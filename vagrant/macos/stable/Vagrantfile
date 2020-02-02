@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell" do |script|
     script.name = "stable"
     script.path = "https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/install_flutter.sh"
-    script.env = {"flutter_version" => "stable"}
+    script.env = {"TOOLS_HOME" => "/Users/vagrant/tools", "flutter_version" => "stable"}
   end
 
 end
