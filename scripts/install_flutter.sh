@@ -31,13 +31,12 @@ if [ -z "$XCODE_INSTALL_USER" ] && [ -z "$XCODE_INSTALL_PASSWORD" ] && [ -z "$XC
   echo "Xcode installation Will not install xcode."
   echo "Because XCODE_INSTALL_USER, XCODE_INSTALL_PASSWORD, XCODE_VERSION environment variables are missing."
 else
-  echo export PATH=/usr/local/bin:"$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
-  echo export PATH="/usr/local/opt/ruby/bin:$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
+  echo export PATH="/usr/local/bin:$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
   source "$USER_ENV_FILE"
   brew update
   brew install ruby
   sudo gem install xcode-install
-  xcversion install "$XCODE_VERSION";
+  xcversion install "$XCODE_VERSION"
 fi
 
 source "$SYSTEM_ENV_FILE"
