@@ -34,10 +34,10 @@ else
   source "$USER_ENV_FILE"
   brew update
   brew install ruby
-  sudo gem install xcode-install
-  echo export PATH="/usr/local/opt/ruby/bin:$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
-  echo export PATH="/usr/local/lib/ruby/gems:$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
+  echo export PATH="/usr/local/opt/ruby/bin:\$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
+  echo export PATH="/usr/local/lib/ruby/gems:\$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
   source "$USER_ENV_FILE"
+  sudo gem install xcode-install
   xcversion install "$XCODE_VERSION"
 fi
 
