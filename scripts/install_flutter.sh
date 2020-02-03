@@ -27,26 +27,28 @@ echo export LANG=en_US.UTF-8 | tee -a "$USER_ENV_FILE" >/dev/null
 sudo gem install bundle && alias fastlane='bundle exec fastlane'
 sudo gem install cocoapods
 
-if [ -z "$XCODE_INSTALL_USER" ] && [ -z "$XCODE_INSTALL_PASSWORD" ] && [ -z "$XCODE_VERSION" ]; then
-  echo "Xcode installation Will not install xcode."
-  echo "Because XCODE_INSTALL_USER, XCODE_INSTALL_PASSWORD, XCODE_VERSION environment variables are missing."
+if [ -z "$FASTLANE_USER" ] && [ -z "$FASTLANE_PASSWORD" ] && [ -z "$XCODE_VERSION" ]; then
+  echo "Xcode installation skipped."
+  echo "Because FASTLANE_USER, FASTLANE_PASSWORD, XCODE_VERSION environment variables are missing."
 else
   echo "Updating ruby version so we could install xcode-install tool"
   source "$USER_ENV_FILE"
   brew update
   brew install ruby
+
+  echo "Updating PATH to find new ruby binary"
   echo export PATH="/usr/local/opt/ruby/bin:\$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
 
-  for directory in $(find /usr/local/lib/ruby/gems -maxdepth 2 -type d -name bin);
-  do
+  for directory in $(find /usr/local/lib/ruby/gems -maxdepth 2 -type d -name bin); do
     echo export PATH="$directory:\$PATH" | tee -a "$USER_ENV_FILE" >/dev/null
   done
 
   source "$USER_ENV_FILE"
-  echo "Installing Xcode install tool"
-  sudo gem install xcode-install
+  export XCODE_INSTALL_USER=$FASTLANE_USER
+  export XCODE_INSTALL_PASSWORD=$FASTLANE_PASSWORD
 
   echo "Installing Xcode version: $XCODE_VERSION"
+  sudo gem install xcode-install
   xcversion install "$XCODE_VERSION"
 fi
 
