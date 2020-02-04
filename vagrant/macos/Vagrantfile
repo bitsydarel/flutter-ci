@@ -1,0 +1,30 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "bitsydarel/macOSSandBox"
+  config.vm.box_version = "0.2"
+  config.vm.boot_timeout = 1800 # boot timeout is set to 30 seconds
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.synced_folder ".", "/vagrant", type: "nfs"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "flutter_macOSSandbox"
+    vb.gui = false
+    vb.linked_clone = true if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.8.0')
+  end
+
+  config.vm.provision "shell" do |script|
+    script.name = "stable"
+    script.path = "https://raw.githubusercontent.com/bitsydarel/flutter-ci/master/scripts/install_flutter.sh"
+    # To install xcode add the following environment variables (under the hood we use fastlane to install xcode)
+    # FASTLANE_USER as your apple developer account username
+    # FASTLANE_PASSWORD as your apple developer account password
+    # FASTLANE_SESSION if your account require a two step authentication
+    # check https://github.com/fastlane/fastlane/tree/master/spaceship#2-step-verification
+    # XCODE_VERSION for the xcode version to install
+    script.env = {
+        "VAGRANT_HOME" => "/Users/vagrant",
+        "flutter_version" => "stable",
+    }
+    script.privileged = false
+  end
+
+end
