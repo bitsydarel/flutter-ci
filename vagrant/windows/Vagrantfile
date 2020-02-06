@@ -1,0 +1,4 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "gusztavvargadr/visual-studio"
+  config.vm.box_version = "2019.0.1912"
+end
